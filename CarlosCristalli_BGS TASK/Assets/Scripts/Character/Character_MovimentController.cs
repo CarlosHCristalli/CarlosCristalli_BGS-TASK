@@ -11,6 +11,8 @@ namespace BGS_TEST
 
         [SerializeField] private float movementSpeed;
         [SerializeField] private float sprintSpeedMultiplier;
+        [SerializeField] private Vector2 collisionOffset;
+        [SerializeField] private LayerMask obstacleLayer; // Layer mask to specify which layers are considered obstacles
 
         private float movAngle = 0;
 
@@ -53,10 +55,36 @@ namespace BGS_TEST
         private void FixedUpdate()
         {
             // Determine current movement speed
-            float currentMovimentSpeed = (inputManager.IsSprinting) ? sprintSpeedMultiplier * movementSpeed : movementSpeed;
+            float currentMovementSpeed = (inputManager.IsSprinting) ? sprintSpeedMultiplier * movementSpeed : movementSpeed;
 
-            // Apply movement to the Rigidbody
-            rb.velocity = inputManager.MoveDirection * currentMovimentSpeed;
+            // Check for obstacles in the direction of movement
+            Vector2 direction = inputManager.MoveDirection.normalized;
+
+            if (CanMove(direction))
+            {
+                // Apply movement to the Rigidbody
+                rb.velocity = direction * currentMovementSpeed;
+            }
+            else
+            {
+                // Stop movement if an obstacle is detected in the direction of movement
+                rb.velocity = Vector2.zero;
+            }
+        }
+
+        /// <summary>
+        /// Checks if the character can move in the specified direction without colliding with obstacles.
+        /// </summary>
+        /// <param name="direction">The direction in which the character intends to move.</param>
+        /// <returns>True if the character can move in the specified direction, otherwise false.</returns>
+        private bool CanMove(Vector2 direction)
+        {
+            // Perform a raycast to detect obstacles in the direction of movement
+            RaycastHit2D hit = Physics2D.Raycast(rb.position + collisionOffset, direction, 0.1f, obstacleLayer);
+
+            Debug.Log(hit.collider);
+
+            return hit.collider == null;
         }
     }
 }

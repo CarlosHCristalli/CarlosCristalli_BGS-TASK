@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,6 +6,9 @@ namespace BGS_TEST
 {
     public class Character_InputManager : MonoBehaviour
     {
+        public delegate void InteractionEvent();
+        public static event InteractionEvent OnInteract;
+
         // PlayerInputActions instance to handle input actions
         [SerializeField] private PlayerInputActions playerInputActions;
 
@@ -39,9 +43,9 @@ namespace BGS_TEST
             sprint.Enable();
 
             // Subscribe to performed and canceled events for input actions
-            interact.performed += OnInteract;
-            sprint.performed += OnSprint;
-            sprint.canceled += OnSprint;
+            interact.performed += OnInteractInput;
+            sprint.performed += OnSprintInput;
+            sprint.canceled += OnSprintInput;
         }
 
         // Disable input actions and unsubscribe from events
@@ -53,9 +57,9 @@ namespace BGS_TEST
             sprint.Disable();
 
             // Unsubscribe from events to avoid memory leaks
-            interact.performed -= OnInteract;
-            sprint.performed -= OnSprint;
-            sprint.canceled -= OnSprint;
+            interact.performed -= OnInteractInput;
+            sprint.performed -= OnSprintInput;
+            sprint.canceled -= OnSprintInput;
         }
 
         void Start()
@@ -71,14 +75,15 @@ namespace BGS_TEST
         }
 
         // Handle the Interact action event
-        private void OnInteract( InputAction.CallbackContext context)
+        private void OnInteractInput( InputAction.CallbackContext context)
         {
             //Add interact logic
-            Debug.Log("OnInteract");
+            Debug.Log("OnInteractInput");
+            OnInteract?.Invoke();
         }
 
         // Handle the Sprint action event
-        private void OnSprint(InputAction.CallbackContext context)
+        private void OnSprintInput(InputAction.CallbackContext context)
         {
             // Toggle sprint state
             IsSprinting = !IsSprinting;

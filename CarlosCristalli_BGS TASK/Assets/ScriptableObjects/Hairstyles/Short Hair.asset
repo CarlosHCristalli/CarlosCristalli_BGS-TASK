@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c800cecf7115bb4d9f137fe8a4c6a9e, type: 3}
   m_Name: Short Hair
   m_EditorClassIdentifier: 
-  TypeOfPiece: 1
+  PieceType: 1
   DisplayName: Short Hair
   Icon: {fileID: -4219290903562744747, guid: 1d142350af976a44099e2bc9a7c74c6b, type: 3}
   AnimatorOverride: {fileID: 22100000, guid: 6abff4592b18fbb4299189b5572df2b3, type: 2}

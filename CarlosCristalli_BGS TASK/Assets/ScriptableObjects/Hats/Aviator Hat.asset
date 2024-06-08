@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c800cecf7115bb4d9f137fe8a4c6a9e, type: 3}
   m_Name: Aviator Hat
   m_EditorClassIdentifier: 
-  TypeOfPiece: 2
+  PieceType: 2
   DisplayName: Aviator Hat
   Icon: {fileID: 2726020777606433447, guid: 3a61aa9e6edffba4080d9bd5cd61edad, type: 3}
   AnimatorOverride: {fileID: 22100000, guid: a78e954eea5701841b24a13981409792, type: 2}

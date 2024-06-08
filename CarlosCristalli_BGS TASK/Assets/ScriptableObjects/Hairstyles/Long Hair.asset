@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c800cecf7115bb4d9f137fe8a4c6a9e, type: 3}
   m_Name: Long Hair
   m_EditorClassIdentifier: 
-  TypeOfPiece: 1
+  PieceType: 1
   DisplayName: Long Hair
   Icon: {fileID: 1317252158423039080, guid: d59ef311357b531408e510b72fccad7e, type: 3}
   AnimatorOverride: {fileID: 22100000, guid: bd57ce1b584e39c458b6e75340cfdefd, type: 2}
