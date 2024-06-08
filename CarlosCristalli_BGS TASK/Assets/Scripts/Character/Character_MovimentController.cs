@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BGS_TEST
@@ -7,7 +5,8 @@ namespace BGS_TEST
     public class Character_MovimentController : MonoBehaviour
     {
         [SerializeField] private Rigidbody2D rb;
-        [SerializeField] private Animator animator;
+        [Header("Reference")]
+        [SerializeField] Character_VisualManager visualManager;
         [SerializeField] private Character_InputManager inputManager;
 
         [SerializeField] private float movementSpeed;
@@ -16,8 +15,8 @@ namespace BGS_TEST
         private float movAngle = 0;
 
         // Constants for direction angles
-        private const float UpAngle = 0;
-        private const float DownAngle = 180;
+        private const float UpAngle = 180;
+        private const float DownAngle = 0;
         private const float LeftAngle = 270;
         private const float RightAngle = 90;
         private const float IdleAngle = -1;
@@ -48,8 +47,7 @@ namespace BGS_TEST
             }
 
             // Update animator parameters
-            animator.SetBool("IsSprinting", inputManager.IsSprinting);
-            animator.SetFloat("MovementAngle", movAngle);           
+            visualManager.UpdateAnimators(inputManager.IsSprinting, movAngle);
         }
 
         private void FixedUpdate()

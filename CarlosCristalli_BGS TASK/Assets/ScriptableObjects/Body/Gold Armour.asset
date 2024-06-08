@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c800cecf7115bb4d9f137fe8a4c6a9e, type: 3}
+  m_Name: Gold Armour
+  m_EditorClassIdentifier: 
+  TypeOfPiece: 0
+  DisplayName: Gold Armour
+  Icon: {fileID: 5220678257822599257, guid: 1bfffa64307818d42bcc9841e4413592, type: 3}
+  AnimatorOverride: {fileID: 22100000, guid: 59a942cde2c194a428f53a8d00986fea, type: 2}
