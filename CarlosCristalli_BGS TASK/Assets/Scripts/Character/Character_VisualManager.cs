@@ -122,7 +122,7 @@ namespace BGS_TEST
         public void SetCurrentCustomizationPieceFromInventory(CharacterCustomizationPiece.Type type)
         {
             // Find the first piece in the inventory that matches the specified type
-            var selected = inventory.GetPieceByType(type);
+            var selected = inventory.GetPieceByTypeInTheInventory(type);
 
             if (selected != null)
             {
@@ -131,8 +131,19 @@ namespace BGS_TEST
             }
             else
             {
-                // Hide the part if no matching piece is found
-                HidePartType(type, true);
+                // Find the first piece in the shopping list that matches the specified type
+                selected = inventory.GetPieceByTypeInTheShoppingList(type);
+
+                if (selected != null)
+                {
+                    // Set the found piece as the current piece
+                    SetCurrentCustomizationPiece(selected);
+                }
+                else
+                {
+                    // Hide the part if no matching piece is found
+                    HidePartType(type, true);
+                }
             }
         }
 

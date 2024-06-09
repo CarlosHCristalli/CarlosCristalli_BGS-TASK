@@ -87,5 +87,10 @@ namespace BGS_TEST
             // Toggle sprint state
             IsSprinting = !IsSprinting;
         }
+
+        public void ResetMoveDirection()
+        {
+            MoveDirection = Vector2.zero;
+        }
     }
 }

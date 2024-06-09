@@ -78,9 +78,19 @@ namespace BGS_TEST
         /// </summary>
         /// <param name="type">The type of customization piece to find.</param>
         /// <returns>The found customization piece, or null if not found.</returns>
-        public CharacterCustomizationPiece GetPieceByType(CharacterCustomizationPiece.Type type)
+        public CharacterCustomizationPiece GetPieceByTypeInTheShoppingList(CharacterCustomizationPiece.Type type)
         {
             return shoppingList.FirstOrDefault(piece => piece.PieceType == type);
+        }
+
+        /// <summary>
+        /// Gets a customization piece from the inventory list by its type.
+        /// </summary>
+        /// <param name="type">The type of customization piece to find.</param>
+        /// <returns>The found customization piece, or null if not found.</returns>
+        public CharacterCustomizationPiece GetPieceByTypeInTheInventory(CharacterCustomizationPiece.Type type)
+        {
+            return customizationPieces.FirstOrDefault(piece => piece.PieceType == type);
         }
 
         /// <summary>
@@ -114,6 +124,12 @@ namespace BGS_TEST
 
             money += piece.Price;
             customizationPieces.Remove(piece);
+
+            Character_VisualManager character_VisualManager = GetComponentInChildren<Character_VisualManager>();
+            if(character_VisualManager != null)
+            {
+                character_VisualManager.SetCurrentCustomizationPieceFromInventory(piece.PieceType);
+            }
 
             // Update the UI display counter to reflect the changes in the inventory and money
             UI_Manager.Instance.UpdateDisplayCounter(shoppingList.Count, moneyCounter > money);

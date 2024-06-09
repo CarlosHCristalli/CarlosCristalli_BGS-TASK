@@ -94,5 +94,10 @@ namespace BGS_TEST
 
             return hit.collider == null;
         }
+
+        public void StopMoving()
+        {
+            rb.velocity = Vector2.zero;
+        }
     }
 }

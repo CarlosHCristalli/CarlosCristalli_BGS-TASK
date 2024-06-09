@@ -62,6 +62,12 @@ namespace BGS_TEST
         {
             base.Interact(_character);
 
+            if (isBoothEmpty)
+            {
+                if (!_character.GetComponent<Character_Inventory>().ShoppingList.Contains(selectedCustomizationPiece))
+                    return;
+            }
+
             if (_character != null)
                 character = _character.GetComponentInChildren<Character_VisualManager>();
 
@@ -83,9 +89,12 @@ namespace BGS_TEST
         {
             characterInput = _character.GetComponent<Character_InputManager>();
             characterMovement = _character.GetComponent<Character_MovementController>();
+
             if (characterInput != null)
             {
+                characterInput.ResetMoveDirection();
                 characterInput.enabled = false;
+                characterMovement.StopMoving();
                 characterMovement.enabled = false;
             }
         }
@@ -166,6 +175,8 @@ namespace BGS_TEST
             {
                 paidForIt = true;
             }
+
+            tooltipDisplay = "Out of stock";
         }
     }
 }
