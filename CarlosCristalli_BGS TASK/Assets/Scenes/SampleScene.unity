@@ -892,7 +892,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Quit
+  m_text: Menu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fdbd89e8487b98d47834e3d20a9ca606, type: 2}
   m_sharedMaterial: {fileID: -4774771215711318046, guid: fdbd89e8487b98d47834e3d20a9ca606, type: 2}
@@ -7206,7 +7206,7 @@ GameObject:
   - component: {fileID: 912510803}
   - component: {fileID: 912510802}
   m_Layer: 5
-  m_Name: Quit
+  m_Name: Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
