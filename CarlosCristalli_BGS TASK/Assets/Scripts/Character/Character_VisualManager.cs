@@ -26,14 +26,19 @@ namespace BGS_TEST
         [SerializeField] private AnimatorOverrideController currentHatAnimator;
         [SerializeField] private CharacterCustomizationPiece currentHatPiece;
 
+        public CharacterCustomizationPiece EquippedClothingPiece => currentClothingPiece;
+        public CharacterCustomizationPiece EquippedHairPiece => currentHairPiece;
+        public CharacterCustomizationPiece EquippedHatPiece => currentHatPiece;
+
+
         private void OnEnable()
         {
-            Interactable_Door.isOutside += HandlleChangeOfScenary;
+            Interactable_Door.isOutside += HandleChangeOfScenery;
         }
 
         private void OnDisable()
         {
-            Interactable_Door.isOutside -= HandlleChangeOfScenary;
+            Interactable_Door.isOutside -= HandleChangeOfScenery;
         }
 
         /// <summary>
@@ -142,27 +147,35 @@ namespace BGS_TEST
             {
                 case CharacterCustomizationPiece.Type.Body:
                     clothesAnimator.gameObject.SetActive(!value);
+                    currentClothingPiece = (!value) ? currentClothingPiece : null;
                     break;
 
                 case CharacterCustomizationPiece.Type.Hair:
                     hairAnimator.gameObject.SetActive(!value);
+                    currentHairPiece = (!value) ? currentHairPiece : null;
                     break;
 
                 case CharacterCustomizationPiece.Type.Hat:
                     hatAnimator.gameObject.SetActive(!value);
+                    currentHatPiece = (!value) ? currentHatPiece : null;
                     break;
 
             }
         }
 
-        private void HandlleChangeOfScenary(bool isOutside)
+        /// <summary>
+        /// Handles the change of scenery, adjusting colors based on light conditions.
+        /// </summary>
+        /// <param name="isOutside">Indicates if the character is outside.</param>
+        private void HandleChangeOfScenery(bool isOutside)
         {
             if (affectedByLight)
             {
-                mainAnimator.GetComponent<SpriteRenderer>().color = (isOutside) ? Color.gray : Color.white;
-                clothesAnimator.GetComponent<SpriteRenderer>().color = (isOutside) ? Color.gray : Color.white;
-                hairAnimator.GetComponent<SpriteRenderer>().color = (isOutside) ? Color.gray : Color.white;
-                hatAnimator.GetComponent<SpriteRenderer>().color = (isOutside) ? Color.gray : Color.white;
+                Color newColor = isOutside ? Color.gray : Color.white;
+                mainAnimator.GetComponent<SpriteRenderer>().color = newColor;
+                clothesAnimator.GetComponent<SpriteRenderer>().color = newColor;
+                hairAnimator.GetComponent<SpriteRenderer>().color = newColor;
+                hatAnimator.GetComponent<SpriteRenderer>().color = newColor;
             }
         }
     }

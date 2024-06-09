@@ -6,23 +6,54 @@ namespace BGS_TEST
 {
     public class Interactable_Counter : Interactable
     {
-        Character_Inventory characterInventory;
+        private Character_Inventory characterInventory;
+
+        [SerializeField] private AudioClip purchase;
+        [SerializeField] private AudioClip callAttention;
 
         public override void Interact(Character_InteractionManager _character)
         {
             characterInventory = _character.GetComponent<Character_Inventory>();
 
+            if (characterInventory == null)
+            {
+                Debug.LogError("Character_Inventory component is missing from the character.");
+                return;
+            }
+
+            UI_Manager.Instance.OpenCounterOptions();
+
+            soundEffectPlayer.clip = callAttention;
+            soundEffectPlayer.Play();
+        }
+
+        /// <summary>
+        /// Handles the buy action by displaying a confirmation message or an error message.
+        /// </summary>
+        public void Buy()
+        {
             if (characterInventory != null)
             {
-                if (characterInventory.ShoppingList.Count > 0)
+                if (characterInventory.ShoppingList.Count > 0 && characterInventory.Money >= characterInventory.ShoppingListPrice)
                 {
                     UI_Manager.Instance.ShowConfirmationMessage(ConfirmPurchase, GetConfirmationMessage());
                 }
                 else
                 {
-                    UI_Manager.Instance.ShowMessage("No items on Shopping List");
+                    string message = characterInventory.ShoppingList.Count == 0
+                        ? "No items on Shopping List."
+                        : "You can't afford this!";
+                    UI_Manager.Instance.ShowMessage(message);
                 }
             }
+        }
+
+        /// <summary>
+        /// Opens the inventory display for selling items.
+        /// </summary>
+        public void Sell()
+        {
+            UI_Manager.Instance.OpenInventoryDisplay("Inventory", characterInventory.SellPiece, characterInventory.InventoryList, characterInventory.Money, -1);
         }
 
         /// <summary>
@@ -42,6 +73,8 @@ namespace BGS_TEST
             if (characterInventory != null)
             {
                 characterInventory.BuyShoppingList();
+                soundEffectPlayer.clip = purchase;
+                soundEffectPlayer.Play();
             }
         }
     }

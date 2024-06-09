@@ -78,7 +78,6 @@ namespace BGS_TEST
         private void OnInteractInput( InputAction.CallbackContext context)
         {
             //Add interact logic
-            Debug.Log("OnInteractInput");
             OnInteract?.Invoke();
         }
 

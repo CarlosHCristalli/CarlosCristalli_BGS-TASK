@@ -9,6 +9,9 @@ namespace BGS_TEST
         // Tooltip text to display when the player gets close to the interactable object
         public string tooltipDisplay;
 
+        //Sound effects source
+        [SerializeField] protected AudioSource soundEffectPlayer;
+
         /// <summary>
         /// Virtual method to handle interaction logic. Can be overridden by derived classes.
         /// </summary>

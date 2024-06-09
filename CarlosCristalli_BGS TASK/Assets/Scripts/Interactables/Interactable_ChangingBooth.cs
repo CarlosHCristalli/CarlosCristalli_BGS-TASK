@@ -12,12 +12,14 @@ namespace BGS_TEST
         [SerializeField] private Character_VisualManager display;
         [SerializeField] private CharacterCustomizationPiece selectedCustomizationPiece;
 
-        [SerializeField] private bool isBoothEmpty = true;
-        [SerializeField] private bool paidForIt = true;
+        private bool isBoothEmpty = true;
+        private bool paidForIt = true;
 
         private Character_VisualManager character;
         private Character_InputManager characterInput;
+        private Character_MovementController characterMovement;
         private Transform characterDefaultParent;
+        private Vector3 characterDefaultLocalPosition;
 
         private void OnEnable()
         {
@@ -29,22 +31,30 @@ namespace BGS_TEST
 
             if (isBoothEmpty && paidForIt)
             {
-                display.HidePartType(CharacterCustomizationPiece.Type.Body, false);
-                display.HidePartType(CharacterCustomizationPiece.Type.Hair, false);
-                display.HidePartType(CharacterCustomizationPiece.Type.Hat, false);
-
-                display.SetCurrentCustomizationPiece(selectedCustomizationPiece);
-                isBoothEmpty = false;
+                InitializeDisplay();
             }
 
-            Character_Inventory.ReturningPiece += ReciveReturn;
+            Character_Inventory.ReturningPiece += ReceiveReturn;
             Character_Inventory.BuyingPiece += WasPaidFor;
         }
 
         private void OnDisable()
         {
-            Character_Inventory.ReturningPiece -= ReciveReturn;
+            Character_Inventory.ReturningPiece -= ReceiveReturn;
             Character_Inventory.BuyingPiece -= WasPaidFor;
+        }
+
+        /// <summary>
+        /// Initializes the display by setting the default state of the booth.
+        /// </summary>
+        private void InitializeDisplay()
+        {
+            display.HidePartType(CharacterCustomizationPiece.Type.Body, false);
+            display.HidePartType(CharacterCustomizationPiece.Type.Hair, false);
+            display.HidePartType(CharacterCustomizationPiece.Type.Hat, false);
+
+            display.SetCurrentCustomizationPiece(selectedCustomizationPiece);
+            isBoothEmpty = false;
         }
 
         // Overrides the Interact method from the base class to handle interactions with the changing booth
@@ -52,18 +62,32 @@ namespace BGS_TEST
         {
             base.Interact(_character);
 
-            if(_character != null)
+            if (_character != null)
                 character = _character.GetComponentInChildren<Character_VisualManager>();
 
             characterDefaultParent = character.transform.parent;
+            characterDefaultLocalPosition = character.transform.localPosition;
             character.transform.parent = characterParentForAnimation;
 
-            // Disable character movement
-            characterInput = _character.GetComponent<Character_InputManager>();
-            if (characterInput != null)
-                characterInput.enabled = false;
+            DisableCharacterMovement(_character);
 
             animator.SetTrigger("Enter");
+            soundEffectPlayer.Play();
+        }
+
+        /// <summary>
+        /// Disables the character's movement and input controls.
+        /// </summary>
+        /// <param name="_character">The character to disable.</param>
+        private void DisableCharacterMovement(Character_InteractionManager _character)
+        {
+            characterInput = _character.GetComponent<Character_InputManager>();
+            characterMovement = _character.GetComponent<Character_MovementController>();
+            if (characterInput != null)
+            {
+                characterInput.enabled = false;
+                characterMovement.enabled = false;
+            }
         }
 
         /// <summary>
@@ -88,7 +112,7 @@ namespace BGS_TEST
             else
             {
                 character.RemovePieceFromInventory(selectedCustomizationPiece);
-                ReciveReturn(selectedCustomizationPiece);
+                ReceiveReturn(selectedCustomizationPiece);
             }
         }
 
@@ -99,6 +123,7 @@ namespace BGS_TEST
         {
             // Equip or remove the selected customization piece
             EquipCustomizationPiece();
+            soundEffectPlayer.Play();
         }
 
         /// <summary>
@@ -109,9 +134,13 @@ namespace BGS_TEST
             if (character != null)
             {
                 character.transform.parent = characterDefaultParent;
+                character.transform.localPosition = characterDefaultLocalPosition;
 
                 if (characterInput != null)
+                {
                     characterInput.enabled = true;
+                    characterMovement.enabled = true;
+                }
             }
         }
 
@@ -119,7 +148,7 @@ namespace BGS_TEST
         /// Receives the returned customization piece and updates the booth state.
         /// </summary>
         /// <param name="piece">The returned customization piece.</param>
-        void ReciveReturn(CharacterCustomizationPiece piece)
+        void ReceiveReturn(CharacterCustomizationPiece piece)
         {
             if(selectedCustomizationPiece == piece)
             {

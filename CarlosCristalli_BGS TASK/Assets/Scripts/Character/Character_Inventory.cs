@@ -102,5 +102,23 @@ namespace BGS_TEST
             // Update UI display counter
             UI_Manager.Instance.UpdateDisplayCounter(shoppingList.Count, moneyCounter > money);
         }
+
+        /// <summary>
+        /// Sells a customization piece, updating the player's money and inventory.
+        /// </summary>
+        /// <param name="piece">The customization piece to sell.</param>
+        /// <param name="equipped">Indicates if the piece is currently equipped.</param>
+        public void SellPiece(CharacterCustomizationPiece piece, bool equipped)
+        {
+            SoundEffects_Manager.Instance.PlaySellingSound();
+
+            money += piece.Price;
+            customizationPieces.Remove(piece);
+
+            // Update the UI display counter to reflect the changes in the inventory and money
+            UI_Manager.Instance.UpdateDisplayCounter(shoppingList.Count, moneyCounter > money);
+            // Reopen the inventory display to reflect the updated inventory
+            UI_Manager.Instance.OpenInventoryDisplay("Inventory", SellPiece, customizationPieces, money, -1);
+        }
     }
 }

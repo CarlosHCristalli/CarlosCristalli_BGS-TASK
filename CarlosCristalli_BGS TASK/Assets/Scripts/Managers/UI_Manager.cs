@@ -11,6 +11,9 @@ namespace BGS_TEST
     {
         public static UI_Manager Instance;
 
+        [Header("Counter")]
+        [SerializeField] private GameObject CounterOptions;
+
         [Header("Inventory Add display")]
         [SerializeField] private Image extraCounterDisplay;
         [SerializeField] private TMP_Text extraCounterDisplayText;
@@ -35,12 +38,12 @@ namespace BGS_TEST
 
         private void OnEnable()
         {
-            Interactable_Door.isOutside += HandlleChangeOfScenary;
+            Interactable_Door.isOutside += HandleChangeOfScenery;
         }
 
         private void OnDisable()
         {
-            Interactable_Door.isOutside -= HandlleChangeOfScenary;
+            Interactable_Door.isOutside -= HandleChangeOfScenery;
         }
 
         private void Awake()
@@ -52,7 +55,7 @@ namespace BGS_TEST
             }
             else
             {
-                Destroy(this.gameObject);
+                Destroy(gameObject);
             }
         }
 
@@ -106,7 +109,7 @@ namespace BGS_TEST
         /// <param name="toBeDisplayed">List of items to display.</param>
         /// <param name="money">Current money amount.</param>
         /// <param name="shoppingListPrice">Total price of items in the shopping list.</param>
-        public void OpenInventoryDisplay(string Title, Action<CharacterCustomizationPiece> callback, List<CharacterCustomizationPiece> toBeDisplayed, int money, int ShoppingListPrice)
+        public void OpenInventoryDisplay(string Title, Action<CharacterCustomizationPiece,bool> callback, List<CharacterCustomizationPiece> toBeDisplayed, int money, int ShoppingListPrice)
         {
             inventoryDisplay.gameObject.SetActive(true);
             inventoryDisplay.Setup(Title, callback, toBeDisplayed, money, ShoppingListPrice);
@@ -114,7 +117,7 @@ namespace BGS_TEST
 
         public void OpenShoppingList(Character_Inventory inventory)
         {
-            OpenInventoryDisplay("Shopping List", AskToRemovePiece, inventory.ShoppingList, inventory.Money, inventory.ShoppingListPrice);
+            OpenInventoryDisplay("Shopping Cart", AskToRemovePiece, inventory.ShoppingList, inventory.Money, inventory.ShoppingListPrice);
         }
 
         public void OpenInventory(Character_Inventory inventory)
@@ -122,22 +125,43 @@ namespace BGS_TEST
             OpenInventoryDisplay("Inventory", AskToWearPiece, inventory.InventoryList, inventory.Money, -1);
         }
 
-        private void AskToWearPiece(CharacterCustomizationPiece piece)
+        public void OpenCounterOptions()
         {
-            ShowConfirmationMessage(() => { characterVisual.SetCurrentCustomizationPiece(piece); }, $"Change to {piece.name}?");
+            CounterOptions.SetActive(true);
         }
 
-        private void AskToRemovePiece(CharacterCustomizationPiece piece)
+        private void AskToWearPiece(CharacterCustomizationPiece piece, bool isEquipped)
+        {
+            if (isEquipped)
+            {
+                ShowConfirmationMessage(() =>
+                {
+                    characterVisual.HidePartType(piece.PieceType, true);
+                    OpenInventory(characterInventory);
+                }, $"Change out of {piece.name}?");
+            }
+            else
+            {
+                ShowConfirmationMessage(() =>
+                {
+                    characterVisual.HidePartType(piece.PieceType, false);
+                    characterVisual.SetCurrentCustomizationPiece(piece);
+                    OpenInventory(characterInventory);
+                }, $"Change to {piece.name}?");
+            }
+        }
+
+        private void AskToRemovePiece(CharacterCustomizationPiece piece, bool isEquipped)
         {
             ShowConfirmationMessage(() =>
             {
                 characterInventory.RemovePiece(piece);
                 OpenShoppingList(characterInventory);
                 Character_Inventory.ReturningPiece?.Invoke(piece);
-            }, $"Are you sure you want to return {piece.name}?");
+            }, $"Are you sure you want to return {piece.name}?" + (isEquipped ? "\nIt is currently equipped" : string.Empty));
         }
 
-        private void HandlleChangeOfScenary(bool isOutside)
+        private void HandleChangeOfScenery(bool isOutside)
         {
             ShoppingListInventoryButton.SetActive(!isOutside);
         }

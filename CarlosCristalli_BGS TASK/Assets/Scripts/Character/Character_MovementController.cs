@@ -2,9 +2,10 @@ using UnityEngine;
 
 namespace BGS_TEST
 {
-    public class Character_MovimentController : MonoBehaviour
+    public class Character_MovementController : MonoBehaviour
     {
         [SerializeField] private Rigidbody2D rb;
+        [SerializeField] private AudioSource audioSource;
         [Header("Reference")]
         [SerializeField] Character_VisualManager visualManager;
         [SerializeField] private Character_InputManager inputManager;
@@ -50,6 +51,14 @@ namespace BGS_TEST
 
             // Update animator parameters
             visualManager.UpdateAnimators(inputManager.IsSprinting, movAngle);
+
+            //Handle Sound
+            if (movAngle != IdleAngle && !audioSource.isPlaying)
+            {
+                audioSource.Play();
+                //Change the pitch to differentiate from walking to Sprinting
+                audioSource.pitch = (inputManager.IsSprinting) ? 0.8f * sprintSpeedMultiplier : 0.8f;
+            }
         }
 
         private void FixedUpdate()

@@ -13,7 +13,9 @@ namespace BGS_TEST
         [SerializeField] private GameObject nextAmbiant;
         [SerializeField] private Interactable_Door doorOnTheOtherSide;
 
-        [SerializeField] private bool OutDoor;
+        [SerializeField] private bool isOutdoor;
+
+        // Override the Interact method from the base class to handle door interactions
         public override void Interact(Character_InteractionManager character)
         {
             base.Interact(character);
@@ -26,7 +28,7 @@ namespace BGS_TEST
 
             character.transform.position = targetPosition;
 
-            isOutside?.Invoke(!OutDoor);
+            isOutside?.Invoke(!isOutdoor);
         }
     }
 }
