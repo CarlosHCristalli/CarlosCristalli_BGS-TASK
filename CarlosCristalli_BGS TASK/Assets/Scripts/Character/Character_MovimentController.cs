@@ -82,8 +82,6 @@ namespace BGS_TEST
             // Perform a raycast to detect obstacles in the direction of movement
             RaycastHit2D hit = Physics2D.Raycast(rb.position + collisionOffset, direction, 0.1f, obstacleLayer);
 
-            Debug.Log(hit.collider);
-
             return hit.collider == null;
         }
     }

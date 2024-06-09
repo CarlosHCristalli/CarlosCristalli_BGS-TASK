@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c800cecf7115bb4d9f137fe8a4c6a9e, type: 3}
   m_Name: Male Underwear
   m_EditorClassIdentifier: 
+  PieceType: 0
   DisplayName: Male Underwear
-  Icon: {fileID: 2021315678290164079, guid: 45ee543ca1b6b2440b12a8f0e13ac981, type: 3}
+  Icon: {fileID: 2021315678290164079, guid: 78ad0ec39eb225e42ad3e550e46f4e11, type: 3}
   AnimatorOverride: {fileID: 22100000, guid: f9c44b2fd1810d642b133f11821dd13b, type: 2}
+  Price: 30

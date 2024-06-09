@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PieceType: 2
   DisplayName: Wizard Hat
-  Icon: {fileID: -8830697506206102072, guid: 9f3cfbd352e819446be9027a0735f00a, type: 3}
+  Icon: {fileID: -8830697506206102072, guid: 4a2fa990a61ea7740958a63d79aacc68, type: 3}
   AnimatorOverride: {fileID: 22100000, guid: c8f37e461b923b24fbf73cf0ec9208c2, type: 2}
+  Price: 20

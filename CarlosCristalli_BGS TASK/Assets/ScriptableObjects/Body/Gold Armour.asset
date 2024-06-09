@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c800cecf7115bb4d9f137fe8a4c6a9e, type: 3}
   m_Name: Gold Armour
   m_EditorClassIdentifier: 
-  TypeOfPiece: 0
+  PieceType: 0
   DisplayName: Gold Armour
-  Icon: {fileID: 5220678257822599257, guid: 1bfffa64307818d42bcc9841e4413592, type: 3}
+  Icon: {fileID: 5220678257822599257, guid: fea749a7faab4394c81fa7e931a2c0e5, type: 3}
   AnimatorOverride: {fileID: 22100000, guid: 59a942cde2c194a428f53a8d00986fea, type: 2}
+  Price: 30

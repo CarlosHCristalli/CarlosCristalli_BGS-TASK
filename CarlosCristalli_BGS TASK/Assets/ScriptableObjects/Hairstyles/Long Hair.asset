@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PieceType: 1
   DisplayName: Long Hair
-  Icon: {fileID: 1317252158423039080, guid: d59ef311357b531408e510b72fccad7e, type: 3}
+  Icon: {fileID: 1317252158423039080, guid: 8b15037258900f24cb644262c84a7fba, type: 3}
   AnimatorOverride: {fileID: 22100000, guid: bd57ce1b584e39c458b6e75340cfdefd, type: 2}
+  Price: 10

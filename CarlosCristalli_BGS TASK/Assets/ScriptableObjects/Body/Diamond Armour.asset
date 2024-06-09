@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c800cecf7115bb4d9f137fe8a4c6a9e, type: 3}
   m_Name: Diamond Armour
   m_EditorClassIdentifier: 
-  TypeOfPiece: 0
+  PieceType: 0
   DisplayName: Diamond Armour
-  Icon: {fileID: -7180628189774744250, guid: a2c3c631277b66345834599670f56314, type: 3}
+  Icon: {fileID: -7180628189774744250, guid: 89b4258fc45d1d841b103d422534e86b, type: 3}
   AnimatorOverride: {fileID: 22100000, guid: 1ffd0fc6a06762542b5fec7a5e7db06e, type: 2}
+  Price: 30

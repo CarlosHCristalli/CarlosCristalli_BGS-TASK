@@ -16,5 +16,7 @@ namespace BGS_TEST
         public string DisplayName;
         public Sprite Icon;
         public AnimatorOverrideController AnimatorOverride;
+        [Space]
+        public int Price;
     }
 }

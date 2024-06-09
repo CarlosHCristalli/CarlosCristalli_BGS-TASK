@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c800cecf7115bb4d9f137fe8a4c6a9e, type: 3}
   m_Name: Female Underwear
   m_EditorClassIdentifier: 
+  PieceType: 0
   DisplayName: Female Underwear
-  Icon: {fileID: -3405974587845093511, guid: 45d7ec0a93b07aa40b2ccb2496625efc, type: 3}
+  Icon: {fileID: -3405974587845093511, guid: 7eb9c63a084a84d42954f6de83a020c5, type: 3}
   AnimatorOverride: {fileID: 22100000, guid: 1c92fabbfef8e7549b0b2b6f88708625, type: 2}
+  Price: 30

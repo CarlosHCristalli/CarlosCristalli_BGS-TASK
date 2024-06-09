@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PieceType: 1
   DisplayName: Short Hair
-  Icon: {fileID: -4219290903562744747, guid: 1d142350af976a44099e2bc9a7c74c6b, type: 3}
+  Icon: {fileID: -4219290903562744747, guid: c2abedfa7e88a464ab5ad360731b301d, type: 3}
   AnimatorOverride: {fileID: 22100000, guid: 6abff4592b18fbb4299189b5572df2b3, type: 2}
+  Price: 10

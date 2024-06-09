@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PieceType: 2
   DisplayName: Aviator Hat
-  Icon: {fileID: 2726020777606433447, guid: 3a61aa9e6edffba4080d9bd5cd61edad, type: 3}
+  Icon: {fileID: 2726020777606433447, guid: 09b5eb3c4f750b340bc3017cabef177c, type: 3}
   AnimatorOverride: {fileID: 22100000, guid: a78e954eea5701841b24a13981409792, type: 2}
+  Price: 20

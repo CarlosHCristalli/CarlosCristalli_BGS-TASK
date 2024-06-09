@@ -6,26 +6,38 @@ namespace BGS_TEST
 {
     public class Interactable_ChangingBooth : Interactable
     {
-        [SerializeField] private Character_VisualManager Display;
-        [SerializeField] private CharacterCustomizationPiece SelectedCustomizationPiece;
+        [SerializeField] private Animator animator;
+        [SerializeField] private Transform characterParentForAnimation;
 
-        bool isBoothEmpty = false;
+        [SerializeField] private Character_VisualManager display;
+        [SerializeField] private CharacterCustomizationPiece selectedCustomizationPiece;
+
+        private bool isBoothEmpty = false;
 
         private Character_VisualManager character;
+        private Character_InputManager characterInput;
+        private Transform characterDefaultParent;
 
         private void OnEnable()
         {
-            if (Display == null)
+            if (display == null)
             {
-                Debug.LogError($"Display reference is missing in Interactable_ChangingBooth: {gameObject.name}");
+                Debug.LogError($"display reference is missing in Interactable_ChangingBooth: {gameObject.name}");
                 return;
             }
 
-            Display.HidePartType(CharacterCustomizationPiece.Type.Body, false);
-            Display.HidePartType(CharacterCustomizationPiece.Type.Hair, false);
-            Display.HidePartType(CharacterCustomizationPiece.Type.Hat, false);
+            display.HidePartType(CharacterCustomizationPiece.Type.Body, false);
+            display.HidePartType(CharacterCustomizationPiece.Type.Hair, false);
+            display.HidePartType(CharacterCustomizationPiece.Type.Hat, false);
 
-            Display.SetCurrentCustomizationPiece(SelectedCustomizationPiece);
+            display.SetCurrentCustomizationPiece(selectedCustomizationPiece);
+
+            Character_Inventory.ReturningPiece += ReciveReturn;
+        }
+
+        private void OnDisable()
+        {
+            Character_Inventory.ReturningPiece -= ReciveReturn;
         }
 
         // Overrides the Interact method from the base class to handle interactions with the changing booth
@@ -36,8 +48,15 @@ namespace BGS_TEST
             if(_character != null)
                 character = _character.GetComponentInChildren<Character_VisualManager>();
 
-            // Equip or remove the selected customization piece
-            EquipCustomizationPiece();
+            characterDefaultParent = character.transform.parent;
+            character.transform.parent = characterParentForAnimation;
+
+            // Disable character movement
+            characterInput = _character.GetComponent<Character_InputManager>();
+            if (characterInput != null)
+                characterInput.enabled = false;
+
+            animator.SetTrigger("Enter");
         }
 
         /// <summary>
@@ -45,24 +64,61 @@ namespace BGS_TEST
         /// </summary>
         public void EquipCustomizationPiece()
         {
-            if (character == null || Display == null)
+            if (character == null || display == null)
             {
-                Debug.LogError($"Character or Display references are missing in Interactable_ChangingBooth. : {gameObject.name}");
+                Debug.LogError($"Character or display references are missing in Interactable_ChangingBooth. : {gameObject.name}");
                 return;
             }
 
             if (!isBoothEmpty)
             {
-                character.SetCurrentCustomizationPiece(SelectedCustomizationPiece, true);
-                Display.HidePartType(SelectedCustomizationPiece.PieceType, true);
+                character.SetCurrentCustomizationPiece(selectedCustomizationPiece, true);
+                display.HidePartType(selectedCustomizationPiece.PieceType, true);
                 isBoothEmpty = true;
+                tooltipDisplay = "Press E to Return";
             }
             else
             {
-                character.RemovePieceFromInventory(SelectedCustomizationPiece);
-                character.SetCurrentCustomizationPieceFromInventory(SelectedCustomizationPiece.PieceType);
-                Display.HidePartType(SelectedCustomizationPiece.PieceType, false);
+                character.RemovePieceFromInventory(selectedCustomizationPiece);
+                ReciveReturn(selectedCustomizationPiece);
+            }
+        }
+
+        /// <summary>
+        /// Called when the changing animation 1 cycle is finished, to equip or remove the customization piece.
+        /// </summary>
+        public void FinishedChanging()
+        {
+            // Equip or remove the selected customization piece
+            EquipCustomizationPiece();
+        }
+
+        /// <summary>
+        /// Called when the changing animation 2 cycle is finished, to reset the character's parent and re-enable input.
+        /// </summary>
+        public void AnimationOver()
+        {
+            if (character != null)
+            {
+                character.transform.parent = characterDefaultParent;
+
+                if (characterInput != null)
+                    characterInput.enabled = true;
+            }
+        }
+
+        /// <summary>
+        /// Receives the returned customization piece and updates the booth state.
+        /// </summary>
+        /// <param name="piece">The returned customization piece.</param>
+        void ReciveReturn(CharacterCustomizationPiece piece)
+        {
+            if(selectedCustomizationPiece == piece)
+            {
+                character.SetCurrentCustomizationPieceFromInventory(selectedCustomizationPiece.PieceType);
+                display.HidePartType(selectedCustomizationPiece.PieceType, false);
                 isBoothEmpty = false;
+                tooltipDisplay = "Press E to Try";
             }
         }
     }

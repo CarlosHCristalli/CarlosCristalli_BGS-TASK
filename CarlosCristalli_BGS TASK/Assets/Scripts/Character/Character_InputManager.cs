@@ -9,7 +9,7 @@ namespace BGS_TEST
         public delegate void InteractionEvent();
         public static event InteractionEvent OnInteract;
 
-        // PlayerInputActions instance to handle input actions
+        // PlayerInputActions Instance to handle input actions
         [SerializeField] private PlayerInputActions playerInputActions;
 
         // Property to store and provide the movement direction
@@ -23,7 +23,7 @@ namespace BGS_TEST
         private InputAction interact;
         private InputAction sprint;
 
-        // Initialize the PlayerInputActions instance
+        // Initialize the PlayerInputActions Instance
         private void Awake()
         {
             playerInputActions = new PlayerInputActions();
@@ -32,7 +32,7 @@ namespace BGS_TEST
         // Enable input actions and subscribe to events
         private void OnEnable()
         {
-            // Retrieve input actions from the PlayerInputActions instance
+            // Retrieve input actions from the PlayerInputActions Instance
             move = playerInputActions.Player.Move;
             interact = playerInputActions.Player.Interact;
             sprint = playerInputActions.Player.Sprint;

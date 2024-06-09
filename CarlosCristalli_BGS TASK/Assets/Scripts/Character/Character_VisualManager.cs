@@ -7,7 +7,7 @@ namespace BGS_TEST
 {
     public class Character_VisualManager : MonoBehaviour
     {
-        [SerializeField] private List<CharacterCustomizationPiece> inventory = new List<CharacterCustomizationPiece>();
+        [SerializeField] private Character_Inventory inventory;
 
         [Header("Body")]
         [SerializeField] private Animator mainAnimator;
@@ -72,7 +72,7 @@ namespace BGS_TEST
             // Add the piece to the inventory if specified
             if (addToInventory)
             {
-                inventory.Add(piece);
+                inventory.AddPiece(piece);
             }
         }
 
@@ -96,7 +96,7 @@ namespace BGS_TEST
         /// <param name="piece">The piece to remove from the inventory.</param>
         public void RemovePieceFromInventory(CharacterCustomizationPiece piece)
         {
-            inventory.Remove(piece);
+            inventory.RemovePiece(piece);
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace BGS_TEST
         public void SetCurrentCustomizationPieceFromInventory(CharacterCustomizationPiece.Type type)
         {
             // Find the first piece in the inventory that matches the specified type
-            var selected = inventory.FirstOrDefault(piece => piece.PieceType == type);
+            var selected = inventory.GetPieceByType(type);
 
             if (selected != null)
             {
