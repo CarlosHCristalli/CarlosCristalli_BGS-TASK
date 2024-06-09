@@ -79,8 +79,9 @@ namespace BGS_TEST
         /// <returns>True if the character can move in the specified direction, otherwise false.</returns>
         private bool CanMove(Vector2 direction)
         {
+            Physics2D.queriesHitTriggers = false;
             // Perform a raycast to detect obstacles in the direction of movement
-            RaycastHit2D hit = Physics2D.Raycast(rb.position + collisionOffset, direction, 0.1f, obstacleLayer);
+            RaycastHit2D hit = Physics2D.Raycast(rb.position + collisionOffset, direction, 0.03f, obstacleLayer);
 
             return hit.collider == null;
         }

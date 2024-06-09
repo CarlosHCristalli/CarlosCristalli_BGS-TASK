@@ -8,6 +8,7 @@ namespace BGS_TEST
     public class Character_Inventory : MonoBehaviour
     {
         public static Action<CharacterCustomizationPiece> ReturningPiece; // Action event for returning a customization piece
+        public static Action<CharacterCustomizationPiece> BuyingPiece; // Action event for returning a customization piece
 
         [SerializeField] private int money;// Player's current money
         [SerializeField] private int moneyCounter;// Total cost of items in the shopping list
@@ -92,6 +93,7 @@ namespace BGS_TEST
             foreach (var piece in shoppingList)
             {
                 customizationPieces.Add(piece);
+                BuyingPiece?.Invoke(piece);
             }
 
             shoppingList.Clear();

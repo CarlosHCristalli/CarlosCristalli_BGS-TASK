@@ -237,6 +237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: {fileID: 8017190895029841656}
+  affectedByLight: 1
   mainAnimator: {fileID: 6169956592557809735}
   clothesAnimator: {fileID: 6169956593369999428}
   currentClothesAnimator: {fileID: 22100000, guid: f9c44b2fd1810d642b133f11821dd13b, type: 2}

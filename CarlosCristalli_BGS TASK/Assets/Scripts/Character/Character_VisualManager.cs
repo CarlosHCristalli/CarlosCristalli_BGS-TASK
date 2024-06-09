@@ -8,6 +8,7 @@ namespace BGS_TEST
     public class Character_VisualManager : MonoBehaviour
     {
         [SerializeField] private Character_Inventory inventory;
+        [SerializeField] private bool affectedByLight;
 
         [Header("Body")]
         [SerializeField] private Animator mainAnimator;
@@ -24,6 +25,16 @@ namespace BGS_TEST
         [SerializeField] private Animator hatAnimator;
         [SerializeField] private AnimatorOverrideController currentHatAnimator;
         [SerializeField] private CharacterCustomizationPiece currentHatPiece;
+
+        private void OnEnable()
+        {
+            Interactable_Door.isOutside += HandlleChangeOfScenary;
+        }
+
+        private void OnDisable()
+        {
+            Interactable_Door.isOutside -= HandlleChangeOfScenary;
+        }
 
         /// <summary>
         /// Updates all animators with the given isSprinting state and movement angle.
@@ -121,7 +132,7 @@ namespace BGS_TEST
         }
 
         /// <summary>
-        /// Hides or shows a part type based on the value parameter.
+        /// Hides or shows a part type based on the oposite of the value parameter.
         /// </summary>
         /// <param name="type">The type of customization piece to hide or show.</param>
         /// <param name="value">Whether to hide or show the part.</param>
@@ -141,6 +152,17 @@ namespace BGS_TEST
                     hatAnimator.gameObject.SetActive(!value);
                     break;
 
+            }
+        }
+
+        private void HandlleChangeOfScenary(bool isOutside)
+        {
+            if (affectedByLight)
+            {
+                mainAnimator.GetComponent<SpriteRenderer>().color = (isOutside) ? Color.gray : Color.white;
+                clothesAnimator.GetComponent<SpriteRenderer>().color = (isOutside) ? Color.gray : Color.white;
+                hairAnimator.GetComponent<SpriteRenderer>().color = (isOutside) ? Color.gray : Color.white;
+                hatAnimator.GetComponent<SpriteRenderer>().color = (isOutside) ? Color.gray : Color.white;
             }
         }
     }

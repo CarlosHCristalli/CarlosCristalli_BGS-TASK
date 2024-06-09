@@ -12,7 +12,8 @@ namespace BGS_TEST
         [SerializeField] private Character_VisualManager display;
         [SerializeField] private CharacterCustomizationPiece selectedCustomizationPiece;
 
-        private bool isBoothEmpty = false;
+        [SerializeField] private bool isBoothEmpty = true;
+        [SerializeField] private bool paidForIt = true;
 
         private Character_VisualManager character;
         private Character_InputManager characterInput;
@@ -26,18 +27,24 @@ namespace BGS_TEST
                 return;
             }
 
-            display.HidePartType(CharacterCustomizationPiece.Type.Body, false);
-            display.HidePartType(CharacterCustomizationPiece.Type.Hair, false);
-            display.HidePartType(CharacterCustomizationPiece.Type.Hat, false);
+            if (isBoothEmpty && paidForIt)
+            {
+                display.HidePartType(CharacterCustomizationPiece.Type.Body, false);
+                display.HidePartType(CharacterCustomizationPiece.Type.Hair, false);
+                display.HidePartType(CharacterCustomizationPiece.Type.Hat, false);
 
-            display.SetCurrentCustomizationPiece(selectedCustomizationPiece);
+                display.SetCurrentCustomizationPiece(selectedCustomizationPiece);
+                isBoothEmpty = false;
+            }
 
             Character_Inventory.ReturningPiece += ReciveReturn;
+            Character_Inventory.BuyingPiece += WasPaidFor;
         }
 
         private void OnDisable()
         {
             Character_Inventory.ReturningPiece -= ReciveReturn;
+            Character_Inventory.BuyingPiece -= WasPaidFor;
         }
 
         // Overrides the Interact method from the base class to handle interactions with the changing booth
@@ -75,6 +82,7 @@ namespace BGS_TEST
                 character.SetCurrentCustomizationPiece(selectedCustomizationPiece, true);
                 display.HidePartType(selectedCustomizationPiece.PieceType, true);
                 isBoothEmpty = true;
+                paidForIt = false;
                 tooltipDisplay = "Press E to Return";
             }
             else
@@ -118,7 +126,16 @@ namespace BGS_TEST
                 character.SetCurrentCustomizationPieceFromInventory(selectedCustomizationPiece.PieceType);
                 display.HidePartType(selectedCustomizationPiece.PieceType, false);
                 isBoothEmpty = false;
+                paidForIt = true;
                 tooltipDisplay = "Press E to Try";
+            }
+        }
+
+        void WasPaidFor(CharacterCustomizationPiece piece)
+        {
+            if (selectedCustomizationPiece == piece)
+            {
+                paidForIt = true;
             }
         }
     }

@@ -29,6 +29,20 @@ namespace BGS_TEST
         [SerializeField] private Character_VisualManager characterVisual;
         [SerializeField] private Character_Inventory characterInventory;
 
+        [Header("Inventory Buttons")]
+        [SerializeField] private GameObject characterInventoryButton;
+        [SerializeField] private GameObject ShoppingListInventoryButton;
+
+        private void OnEnable()
+        {
+            Interactable_Door.isOutside += HandlleChangeOfScenary;
+        }
+
+        private void OnDisable()
+        {
+            Interactable_Door.isOutside -= HandlleChangeOfScenary;
+        }
+
         private void Awake()
         {
             // Singleton pattern to ensure only one instance of UI_Manager exists
@@ -121,6 +135,11 @@ namespace BGS_TEST
                 OpenShoppingList(characterInventory);
                 Character_Inventory.ReturningPiece?.Invoke(piece);
             }, $"Are you sure you want to return {piece.name}?");
+        }
+
+        private void HandlleChangeOfScenary(bool isOutside)
+        {
+            ShoppingListInventoryButton.SetActive(!isOutside);
         }
     }
 }
