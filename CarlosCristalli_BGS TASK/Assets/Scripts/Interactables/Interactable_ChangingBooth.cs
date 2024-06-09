@@ -174,9 +174,8 @@ namespace BGS_TEST
             if (selectedCustomizationPiece == piece)
             {
                 paidForIt = true;
+                tooltipDisplay = "Out of stock";
             }
-
-            tooltipDisplay = "Out of stock";
         }
     }
 }
